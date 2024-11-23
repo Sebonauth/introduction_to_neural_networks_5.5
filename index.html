@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designing Your Network</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            font-size: 150%;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        h1, h3, h4 {
+            color: #333;
+            margin-top: 20px;
+        }
+        p, li {
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .image-placeholder, .interactive-placeholder, .continue-button, .faq-section, .test-your-knowledge {
+            text-align: left;
+        }
+        .image-placeholder img, .interactive-placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .faq-section {
+            background-color: #fffbea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .faq-section h3 {
+            color: #ffcc00;
+            font-size: 0.75em;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        .faq-section h4 {
+            color: #000;
+            font-size: 0.9em;
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
+        .continue-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .test-your-knowledge {
+            background-color: #e6ffe6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .test-your-knowledge h3 {
+            color: #28a745;
+            font-size: 0.75em;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        .test-your-knowledge h4 {
+            color: #000;
+            font-size: 0.9em;
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
+        .check-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            color: #ffffff;
+            background-color: #28a745;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <section id="section1">
+        <h1>Designing Your Network</h1>
+        <p>How do you decide how many layers and nodes to use? Here are some general guidelines:</p>
+        <div class="interactive-placeholder">
+            <img src="/placeholder.svg?height=300&width=600" alt="Slider controls allowing users to adjust network architecture and see the impact">
+        </div>
+        <h3>Input Layer:</h3>
+        <ul>
+            <li>One node per input feature</li>
+        </ul>
+        <h3>Hidden Layers:</h3>
+        <ul>
+            <li>Start with 1-2 layers for simple problems</li>
+            <li>Add more for complex patterns</li>
+            <li>Rule of thumb: layer size between input and output size</li>
+        </ul>
+        <h3>Output Layer:</h3>
+        <ul>
+            <li>Matches your prediction task</li>
+        </ul>
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <h4>Can you have too many layers?</h4>
+            <p>Yes! Too many layers can lead to overfitting and slower training. Start simple and add complexity only when needed.</p>
+        </div>
+        <div class="continue-button" onclick="showNextSection(2)">Continue</div>
+    </section>
+
+    <section id="section2">
+        <p>Let's practice designing a network for a specific task.</p>
+        <div class="test-your-knowledge">
+            <h3>Test Your Knowledge</h3>
+            <h4>You're building a network to predict house prices based on 5 features (size, location, age, bedrooms, bathrooms). Which architecture makes the most sense?</h4>
+            <form id="quiz-form">
+                <label><input type="radio" name="architecture" value="1"> Input: 5, Hidden: [10,10], Output: 10</label><br>
+                <label><input type="radio" name="architecture" value="2"> Input: 5, Hidden: [4,3], Output: 1</label><br>
+                <label><input type="radio" name="architecture" value="3"> Input: 5, Hidden: [8,6], Output: 1</label><br>
+                <label><input type="radio" name="architecture" value="4"> Input: 3, Hidden: [5,5], Output: 1</label><br>
+                <button type="button" class="check-button" onclick="checkAnswer()">Check Answer</button>
+            </form>
+            <p id="quiz-result" style="display: none;"></p>
+            <p id="quiz-explanation" style="display: none;">We need 5 input nodes (one per feature), a gradually decreasing hidden layer structure, and 1 output node for the price prediction.</p>
+        </div>
+    </section>
+
+    <script>
+        let currentSection = 1;
+
+        function showNextSection(nextSectionId) {
+            const nextSectionElement = document.getElementById("section" + nextSectionId);
+            const currentButton = event.target;
+    
+            // Hide the clicked button
+            currentButton.style.display = "none";
+    
+            nextSectionElement.style.display = "block";
+    
+            setTimeout(() => {
+                nextSectionElement.style.opacity = "1";
+                nextSectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 10);
+
+            currentSection = nextSectionId;
+        }
+
+        function checkAnswer() {
+            const selectedAnswer = document.querySelector('input[name="architecture"]:checked');
+            const resultElement = document.getElementById("quiz-result");
+            const explanationElement = document.getElementById("quiz-explanation");
+
+            if (selectedAnswer) {
+                if (selectedAnswer.value === "3") {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                } else {
+                    resultElement.textContent = "Incorrect. Try again!";
+                    resultElement.style.color = "red";
+                }
+                resultElement.style.display = "block";
+                explanationElement.style.display = "block";
+            } else {
+                resultElement.textContent = "Please select an answer.";
+                resultElement.style.color = "black";
+                resultElement.style.display = "block";
+                explanationElement.style.display = "none";
+            }
+        }
+
+        // Show the first section initially
+        document.getElementById("section1").style.display = "block";
+        document.getElementById("section1").style.opacity = "1";
+    </script>
+</body>
+</html>
